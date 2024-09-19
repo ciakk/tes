@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tes 1 TekWeb c14230202</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<style>
+    body {
+        background-color: #d9dada;
+    }
+    .kanban-card {
+        height: 300px;
+        padding: 50;
+        overflow-y: auto;
+        background-color: rgb(255, 254, 254);
+    }
+    .kanban-header {
+        background-color: #c0d9f2;
+        padding: 10px;
+        font-weight: bold;
+        text-align: center;
+        border-bottom: 2px solid #ddd;
+    }
+    .task-item {
+        padding: 10px;
+        margin-bottom: 10px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        word-wrap: break-word;
+    }
+</style>
+
+<body>
+
+    <div class="bg-info text-white p-3 mb-4">
+        <h1>Kanban View</h1>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <form>
+                        <!--TUGAS type: text-->
+                        <div class="mb-3">
+                            <label for="taskName" class="form-label">Tugas</label>
+                            <input type="text" class="form-control" id="taskName">
+                        </div>
+
+                        <!-- STATUS type: option -->
+                        <div class="mb-3">
+                            <label for="taskStatus" class="form-label">Status</label>
+                            <select class="form-select" id="taskStatus">
+                                <option value="Pending">Pending</option>
+                                <option value="Planning">Planning</option>
+                                <option value="Design">Design</option>
+                                <option value="Development">Development</option>
+                                <option value="Testing">Testing</option>
+                                <option value="Resolved">Resolved</option>
+                            </select>
+                        </div>
+                        <!-- button tambah tugas -->
+                        <button type="button" class="btn btn-primary">Tambah</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div class="kanban-card">
+                <div class="kanban-header">Pending</div>
+                <div id="pending"></div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="kanban-card">
+                <div class="kanban-header">Planning</div>
+                <div id="planning"></div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="kanban-card">
+                <div class="kanban-header">Design</div>
+                <div id="design"></div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="kanban-card">
+                <div class="kanban-header">Development</div>
+                <div id="develop"></div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="kanban-card">
+                <div class="kanban-header">Testing</div>
+                <div id="testing"></div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="kanban-card">
+                <div class="kanban-header">Resolved</div>
+                <div id="resolved"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.querySelector('.btn-primary').addEventListener('click', function() {
+            const taskName = document.querySelector('#taskName').value;
+            const taskStatus = document.querySelector('#taskStatus').value;
+
+            if (taskName) {
+                let taskContainer;
+                if (taskStatus === 'Pending') taskContainer = document.querySelector('#pending');
+                else if (taskStatus === 'Planning') taskContainer = document.querySelector('#planning');
+                else if (taskStatus === 'Design') taskContainer = document.querySelector('#design');
+                else if (taskStatus === 'Development') taskContainer = document.querySelector('#develop');
+                else if (taskStatus === 'Testing') taskContainer = document.querySelector('#testing');
+                else if (taskStatus === 'Resolved') taskContainer = document.querySelector('#resolved');
+                
+                const taskElement = document.createElement('div');
+                taskElement.textContent = taskName;
+                taskElement.classList.add('task-item');
+
+                taskContainer.appendChild(taskElement);
+
+                $(taskElement).on('dblclick', function() {
+                    $(this).remove();
+                });
+
+                document.querySelector('#taskName').value = '';
+            }
+        });
+    </script>
+
+</body>
+</html>
