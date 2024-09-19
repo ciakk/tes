@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+    <head> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Bootstrap x jQuery</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    </head>
+       
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-4 p-3">
+                    <h4 class="fw-bolder mb-3">Form Control</h4>
+
+                    <label style="font-size: 18px;">Width</label>
+                    <div class="input-group mt-1 mb-2">
+                        <button class="btn btn-primary fw-bolder button-control" type="button" id="minus-width">-</button>
+                        <input type="number" style="font-size: 20px;" class="form-control text-end" id="width" min="0" value="0" readonly>
+                        <button class="btn btn-primary fw-bolder button-control" type="button" id="plus-width">+</button>
+                    </div>
+
+                    <label style="font-size: 18px;">Height</label>
+                    <div class="input-group mt-1 mb-2">
+                        <button class="btn btn-primary fw-bolder button-control" type="button" id="minus-height">-</button>
+                        <input type="number" style="font-size: 20px;" class="form-control text-end" id="height" min="0" value="0" readonly>
+                        <button class="btn btn-primary fw-bolder button-control" type="button" id="plus-height">+</button>
+                    </div>    
+
+                    <label style="font-size: 18px;">Size (px)</label>
+                    <div class="input-group mt-1 mb-2">
+                        <button class="btn btn-primary fw-bolder button-control" type="button" id="minus-size">-</button>
+                        <input type="number" style="font-size: 20px;" class="form-control text-end" id="size" min="0" value="30" readonly>
+                        <button class="btn btn-primary fw-bolder button-control" type="button" id="plus-size">+</button>
+                    </div>
+
+                    <label style="font-size: 18px;">Pattern</label>
+                    <span class="text-muted text-sm"><em>*maxlength 1 Letter</em></span>
+                    <div class="mt-1 mb-2">
+                        <input type="text" style="font-size: 20px" class="form-control text-control" id ="pattern" placeholder="Example: *, #, x" maxlength="1">
+                    </div>
+
+                    <label style="font-size: 18px;">Type</label>
+                    <div class="input-group mt-1 mb-2">
+                        <select class="form-control select-control" id="type">
+                            <option value="square">Square</option>
+                            <option value="square-border">Square Border</option>
+                            <option value="triangle">Triangle</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="col-8 p-3 text-center">
+                    <h4 class="fw-bolder mb-3">Display</h4>
+                    <div id="display" class="fw-bolder"></div>
+                </div>
+            </div>
+
+            <div class="row bg-secondary">
+                <div class="col-12 text-center text-light p-3">
+                    <em>Teknologi Web - Gasal 24/25</em>
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        $(function() {
+            function updateDisplay() {
+                var width = parseInt($('#width').val());
+                var height = parseInt($('#height').val());
+                var pattern = $('#pattern').val() || 'X';
+                var type = $('#type').val();
+                
+                var displayContent = '';
+                
+                if (type === 'square') {
+                    for (var i = 0; i < height; i++) {
+                        displayContent += pattern.repeat(width) + '<br>';
+                    }
+                } else if (type === 'square-border') {
+                    for (var i = 0; i < height; i++) {
+                        if (i === 0 || i === height - 1) {
+                            displayContent += pattern.repeat(width) + '<br>';
+                        } else {
+                            displayContent += pattern + '&nbsp;'.repeat((width - 2) * 2) + pattern + '<br>';
+                        }
+                    }
+                } else if (type === 'triangle') {
+                    for (var i = 1; i <= height; i++) {
+                        displayContent += pattern.repeat(i) + '<br>';
+                    }
+                }
+
+                $('#display').html(displayContent);
+            }
+
+            // Event for buttons
+            $('.button-control').click(function() {
+                var target = $(this).attr('id').split('-');
+                var operation = target[0];
+                var field = target[1];
+                var inputField = $('#' + field);
+                
+                var currentValue = parseInt(inputField.val());
+                if (operation === 'plus') {
+                    inputField.val(currentValue + 1);
+                } else {
+                    inputField.val(currentValue - 1);
+                }
+
+                updateDisplay();
+            });
+
+            // Event for pattern and type change
+            $('#pattern, #type').on('keyup change', function() {
+                updateDisplay();
+            });
+
+            // Initial display
+            updateDisplay();
+        });
+    </script>
+</html>
